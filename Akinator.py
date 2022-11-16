@@ -1,5 +1,6 @@
 from No import No
 
+
 class Akinator():
     def __init__(self, tipo: str = "animal") -> None:
         self.__raiz = No("baleia", True)
@@ -12,7 +13,7 @@ class Akinator():
         if raiz.ehFolha:
             if not self.chuta(raiz):
                 self.aprende_com_erro(raiz)
-            self.menu()
+            exit
         else:
             if self.pergunta(raiz):
                 self._percorre(raiz.get_sim())
@@ -55,14 +56,11 @@ class Akinator():
     def registra_aprendizado(self, no_chutado, resposta_certa, diferenca):
         nova_caracteristica = No(diferenca)
         nova_folha = No(resposta_certa, True)
-        
         nova_folha.pai = nova_caracteristica
         nova_folha.ehPositivo = True
-        
         nova_caracteristica.pai = no_chutado.pai
         nova_caracteristica.set_sim(nova_folha)
         nova_caracteristica.set_nao(no_chutado)
-        
         if self.__raiz == no_chutado:
             self.__raiz = nova_caracteristica
         elif no_chutado.ehPositivo:
@@ -72,20 +70,6 @@ class Akinator():
         no_chutado.pai = nova_caracteristica
         no_chutado.ehPositivo = False
 
-    def menu(self):
-        r = input(
-            "O QUE DESEJAS FAZER AGORA?\n(1)-Jogar Novamente\n(2)-Sair\n\n>>"
-        )
-        if r == "1":
-            self.main()
-        elif r == "2":
-            exit
-        else:
-            self.menu()
-
     def main(self):
         print("\npense em um " + self.tipo)
         self.percorre()
-
-a = Akinator()
-a.main()
